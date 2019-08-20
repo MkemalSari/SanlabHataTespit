@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SanlabHataTespitVTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Hata">
+          <Key>
+            <PropertyRef Name="hataID" />
+          </Key>
+          <Property Name="hataID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hataAd" Type="nvarchar" MaxLength="50" />
+          <Property Name="hataAciklama" Type="nvarchar" MaxLength="500" />
+          <Property Name="kategoriID" Type="int" />
+          <Property Name="hataCozum" Type="nvarchar" MaxLength="500" />
+          <Property Name="hataResim" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="kategoriID" />
+          </Key>
+          <Property Name="kategoriID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KategoriAd" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Hata_Kategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="0..1" />
+          <End Role="Hata" Type="Self.Hata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="kategoriID" />
+            </Principal>
+            <Dependent Role="Hata">
+              <PropertyRef Name="kategoriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SanlabHataTespitVTModelStoreContainer">
+          <EntitySet Name="Hata" EntityType="Self.Hata" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Hata_Kategori" Association="Self.FK_Hata_Kategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Hata" EntitySet="Hata" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SanlabHataTespitVTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Hata">
+          <Key>
+            <PropertyRef Name="hataID" />
+          </Key>
+          <Property Name="hataID" Type="Int32" Nullable="false" />
+          <Property Name="hataAd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hataAciklama" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="kategoriID" Type="Int32" />
+          <Property Name="hataCozum" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Kategori" Relationship="Self.FK_Hata_Kategori" FromRole="Hata" ToRole="Kategori" />
+          <Property Name="hataResim" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="kategoriID" />
+          </Key>
+          <Property Name="kategoriID" Type="Int32" Nullable="false" />
+          <Property Name="KategoriAd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Hata" Relationship="Self.FK_Hata_Kategori" FromRole="Kategori" ToRole="Hata" />
+        </EntityType>
+        <Association Name="FK_Hata_Kategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="0..1" />
+          <End Role="Hata" Type="Self.Hata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="kategoriID" />
+            </Principal>
+            <Dependent Role="Hata">
+              <PropertyRef Name="kategoriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SanlabHataTespitVTEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Hata" EntityType="Self.Hata" />
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" />
+          <AssociationSet Name="FK_Hata_Kategori" Association="Self.FK_Hata_Kategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Hata" EntitySet="Hata" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SanlabHataTespitVTModelStoreContainer" CdmEntityContainer="SanlabHataTespitVTEntities">
+          <EntitySetMapping Name="Hata">
+            <EntityTypeMapping TypeName="SanlabHataTespitVTModel.Hata">
+              <MappingFragment StoreEntitySet="Hata">
+                <ScalarProperty Name="hataResim" ColumnName="hataResim" />
+                <ScalarProperty Name="hataID" ColumnName="hataID" />
+                <ScalarProperty Name="hataAd" ColumnName="hataAd" />
+                <ScalarProperty Name="hataAciklama" ColumnName="hataAciklama" />
+                <ScalarProperty Name="kategoriID" ColumnName="kategoriID" />
+                <ScalarProperty Name="hataCozum" ColumnName="hataCozum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kategori">
+            <EntityTypeMapping TypeName="SanlabHataTespitVTModel.Kategori">
+              <MappingFragment StoreEntitySet="Kategori">
+                <ScalarProperty Name="kategoriID" ColumnName="kategoriID" />
+                <ScalarProperty Name="KategoriAd" ColumnName="KategoriAd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
