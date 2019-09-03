@@ -4,10 +4,21 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2b2ea9f56d074912ad90da8664de5cdf" Name="Diagram1">
-        <EntityTypeShape EntityType="SanlabHataTespitVTModel.Hata" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SanlabHataTespitVTModel.Kategori" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <AssociationConnector Association="SanlabHataTespitVTModel.FK_Hata_Kategori" ManuallyRouted="false" />
+      <Diagram DiagramId="2b2ea9f56d074912ad90da8664de5cdf" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="SanlabHataTespitVTModel.CozumResimler" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="SanlabHataTespitVTModel.Hata" Width="1.5" PointX="3" PointY="3.375" />
+        <EntityTypeShape EntityType="SanlabHataTespitVTModel.HataResimler" Width="1.5" PointX="5.25" PointY="4" />
+        <EntityTypeShape EntityType="SanlabHataTespitVTModel.Kategori" Width="1.5" PointX="0.75" PointY="4.125" />
+        <EntityTypeShape EntityType="SanlabHataTespitVTModel.Kisiler" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SanlabHataTespitVTModel.Resimler" Width="1.5" PointX="3" PointY="7.5" />
+        <AssociationConnector Association="SanlabHataTespitVTModel.FK_CozumResimler_Hata" />
+        <AssociationConnector Association="SanlabHataTespitVTModel.FK_CozumResimler_Resimler" />
+        <AssociationConnector Association="SanlabHataTespitVTModel.FK_Hata_Kategori" />
+        <AssociationConnector Association="SanlabHataTespitVTModel.FK_Hata_Kisiler" />
+        <AssociationConnector Association="SanlabHataTespitVTModel.FK_HataResimler_Hata" />
+        <AssociationConnector Association="SanlabHataTespitVTModel.FK_HataResimler_Resimler" />
+        <EntityTypeShape EntityType="SanlabHataTespitVTModel.Musteri" Width="1.5" PointX="8.375" PointY="2.625" />
+        <AssociationConnector Association="SanlabHataTespitVTModel.FK_Hata_Musteri" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

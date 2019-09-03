@@ -12,18 +12,21 @@ namespace SanlabHataTespit
     using System;
     using System.Collections.Generic;
     
-    public partial class Kategori
+    public partial class Resimler
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Kategori()
+        public Resimler()
         {
-            this.Hata = new HashSet<Hata>();
+            this.CozumResimler = new HashSet<CozumResimler>();
+            this.HataResimler = new HashSet<HataResimler>();
         }
     
-        public int kategoriID { get; set; }
-        public string kategoriAd { get; set; }
+        public int resimID { get; set; }
+        public byte[] resimData { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Hata> Hata { get; set; }
+        public virtual ICollection<CozumResimler> CozumResimler { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HataResimler> HataResimler { get; set; }
     }
 }

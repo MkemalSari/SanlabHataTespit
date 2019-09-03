@@ -14,13 +14,31 @@ namespace SanlabHataTespit
     
     public partial class Hata
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Hata()
+        {
+            this.CozumResimler = new HashSet<CozumResimler>();
+            this.HataResimler = new HashSet<HataResimler>();
+        }
+    
         public int hataID { get; set; }
         public string hataAd { get; set; }
         public string hataAciklama { get; set; }
         public Nullable<int> kategoriID { get; set; }
         public string hataCozum { get; set; }
-        public byte[] hataResim { get; set; }
+        public Nullable<System.DateTime> hataTarih { get; set; }
+        public Nullable<int> kisiID { get; set; }
+        public Nullable<System.DateTime> cozumTarihi { get; set; }
+        public Nullable<bool> cozumVarmi { get; set; }
+        public byte[] cozumDosya { get; set; }
+        public Nullable<int> musteriID { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CozumResimler> CozumResimler { get; set; }
         public virtual Kategori Kategori { get; set; }
+        public virtual Kisiler Kisiler { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HataResimler> HataResimler { get; set; }
+        public virtual Musteri Musteri { get; set; }
     }
 }
