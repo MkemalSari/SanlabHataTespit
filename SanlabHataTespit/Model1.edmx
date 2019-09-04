@@ -13,6 +13,15 @@
           <Property Name="resimID" Type="int" />
           <Property Name="hataID" Type="int" />
         </EntityType>
+        <EntityType Name="Dosya">
+          <Key>
+            <PropertyRef Name="dosyaID" />
+          </Key>
+          <Property Name="dosyaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dosyaAdi" Type="nvarchar" MaxLength="250" />
+          <Property Name="dosyaFormat" Type="nvarchar" MaxLength="10" />
+          <Property Name="dosyaData" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="Hata">
           <Key>
             <PropertyRef Name="hataID" />
@@ -26,7 +35,7 @@
           <Property Name="cozumTarihi" Type="datetime" />
           <Property Name="kisiID" Type="int" />
           <Property Name="cozumVarmi" Type="bit" />
-          <Property Name="cozumDosya" Type="varbinary(max)" />
+          <Property Name="cozumDosyaID" Type="int" />
           <Property Name="musteriID" Type="int" />
         </EntityType>
         <EntityType Name="HataResimler">
@@ -96,6 +105,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Hata_Dosya">
+          <End Role="Dosya" Type="Self.Dosya" Multiplicity="0..1" />
+          <End Role="Hata" Type="Self.Hata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dosya">
+              <PropertyRef Name="dosyaID" />
+            </Principal>
+            <Dependent Role="Hata">
+              <PropertyRef Name="cozumDosyaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Hata_Kategori">
           <End Role="Kategori" Type="Self.Kategori" Multiplicity="0..1" />
           <End Role="Hata" Type="Self.Hata" Multiplicity="*" />
@@ -158,6 +179,7 @@
         </Association>
         <EntityContainer Name="SanlabHataTespitVTModelStoreContainer">
           <EntitySet Name="CozumResimler" EntityType="Self.CozumResimler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dosya" EntityType="Self.Dosya" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hata" EntityType="Self.Hata" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HataResimler" EntityType="Self.HataResimler" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kategori" EntityType="Self.Kategori" Schema="dbo" store:Type="Tables" />
@@ -171,6 +193,10 @@
           <AssociationSet Name="FK_CozumResimler_Resimler" Association="Self.FK_CozumResimler_Resimler">
             <End Role="Resimler" EntitySet="Resimler" />
             <End Role="CozumResimler" EntitySet="CozumResimler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hata_Dosya" Association="Self.FK_Hata_Dosya">
+            <End Role="Dosya" EntitySet="Dosya" />
+            <End Role="Hata" EntitySet="Hata" />
           </AssociationSet>
           <AssociationSet Name="FK_Hata_Kategori" Association="Self.FK_Hata_Kategori">
             <End Role="Kategori" EntitySet="Kategori" />
@@ -199,10 +225,12 @@
       <Schema Namespace="SanlabHataTespitVTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="SanlabHataTespitVTEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CozumResimler" EntityType="SanlabHataTespitVTModel.CozumResimler" />
+          <EntitySet Name="Dosya" EntityType="SanlabHataTespitVTModel.Dosya" />
           <EntitySet Name="Hata" EntityType="SanlabHataTespitVTModel.Hata" />
           <EntitySet Name="HataResimler" EntityType="SanlabHataTespitVTModel.HataResimler" />
           <EntitySet Name="Kategori" EntityType="SanlabHataTespitVTModel.Kategori" />
           <EntitySet Name="Kisiler" EntityType="SanlabHataTespitVTModel.Kisiler" />
+          <EntitySet Name="Musteri" EntityType="SanlabHataTespitVTModel.Musteri" />
           <EntitySet Name="Resimler" EntityType="SanlabHataTespitVTModel.Resimler" />
           <AssociationSet Name="FK_CozumResimler_Hata" Association="SanlabHataTespitVTModel.FK_CozumResimler_Hata">
             <End Role="Hata" EntitySet="Hata" />
@@ -212,12 +240,20 @@
             <End Role="Resimler" EntitySet="Resimler" />
             <End Role="CozumResimler" EntitySet="CozumResimler" />
           </AssociationSet>
+          <AssociationSet Name="FK_Hata_Dosya" Association="SanlabHataTespitVTModel.FK_Hata_Dosya">
+            <End Role="Dosya" EntitySet="Dosya" />
+            <End Role="Hata" EntitySet="Hata" />
+          </AssociationSet>
           <AssociationSet Name="FK_Hata_Kategori" Association="SanlabHataTespitVTModel.FK_Hata_Kategori">
             <End Role="Kategori" EntitySet="Kategori" />
             <End Role="Hata" EntitySet="Hata" />
           </AssociationSet>
           <AssociationSet Name="FK_Hata_Kisiler" Association="SanlabHataTespitVTModel.FK_Hata_Kisiler">
             <End Role="Kisiler" EntitySet="Kisiler" />
+            <End Role="Hata" EntitySet="Hata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hata_Musteri" Association="SanlabHataTespitVTModel.FK_Hata_Musteri">
+            <End Role="Musteri" EntitySet="Musteri" />
             <End Role="Hata" EntitySet="Hata" />
           </AssociationSet>
           <AssociationSet Name="FK_HataResimler_Hata" Association="SanlabHataTespitVTModel.FK_HataResimler_Hata">
@@ -227,11 +263,6 @@
           <AssociationSet Name="FK_HataResimler_Resimler" Association="SanlabHataTespitVTModel.FK_HataResimler_Resimler">
             <End Role="Resimler" EntitySet="Resimler" />
             <End Role="HataResimler" EntitySet="HataResimler" />
-          </AssociationSet>
-          <EntitySet Name="Musteri" EntityType="SanlabHataTespitVTModel.Musteri" />
-          <AssociationSet Name="FK_Hata_Musteri" Association="SanlabHataTespitVTModel.FK_Hata_Musteri">
-            <End Role="Musteri" EntitySet="Musteri" />
-            <End Role="Hata" EntitySet="Hata" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="CozumResimler">
@@ -244,6 +275,16 @@
           <NavigationProperty Name="Hata" Relationship="SanlabHataTespitVTModel.FK_CozumResimler_Hata" FromRole="CozumResimler" ToRole="Hata" />
           <NavigationProperty Name="Resimler" Relationship="SanlabHataTespitVTModel.FK_CozumResimler_Resimler" FromRole="CozumResimler" ToRole="Resimler" />
         </EntityType>
+        <EntityType Name="Dosya">
+          <Key>
+            <PropertyRef Name="dosyaID" />
+          </Key>
+          <Property Name="dosyaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dosyaAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="dosyaFormat" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="dosyaData" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Hata" Relationship="SanlabHataTespitVTModel.FK_Hata_Dosya" FromRole="Dosya" ToRole="Hata" />
+        </EntityType>
         <EntityType Name="Hata">
           <Key>
             <PropertyRef Name="hataID" />
@@ -254,16 +295,17 @@
           <Property Name="kategoriID" Type="Int32" />
           <Property Name="hataCozum" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="hataTarih" Type="DateTime" Precision="3" />
+          <Property Name="cozumTarihi" Type="DateTime" Precision="3" />
           <Property Name="kisiID" Type="Int32" />
+          <Property Name="cozumVarmi" Type="Boolean" />
+          <Property Name="cozumDosyaID" Type="Int32" />
+          <Property Name="musteriID" Type="Int32" />
           <NavigationProperty Name="CozumResimler" Relationship="SanlabHataTespitVTModel.FK_CozumResimler_Hata" FromRole="Hata" ToRole="CozumResimler" />
+          <NavigationProperty Name="Dosya" Relationship="SanlabHataTespitVTModel.FK_Hata_Dosya" FromRole="Hata" ToRole="Dosya" />
           <NavigationProperty Name="Kategori" Relationship="SanlabHataTespitVTModel.FK_Hata_Kategori" FromRole="Hata" ToRole="Kategori" />
           <NavigationProperty Name="Kisiler" Relationship="SanlabHataTespitVTModel.FK_Hata_Kisiler" FromRole="Hata" ToRole="Kisiler" />
-          <NavigationProperty Name="HataResimler" Relationship="SanlabHataTespitVTModel.FK_HataResimler_Hata" FromRole="Hata" ToRole="HataResimler" />
-          <Property Name="cozumTarihi" Type="DateTime" Precision="3" />
-          <Property Name="cozumVarmi" Type="Boolean" />
-          <Property Name="cozumDosya" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="musteriID" Type="Int32" />
           <NavigationProperty Name="Musteri" Relationship="SanlabHataTespitVTModel.FK_Hata_Musteri" FromRole="Hata" ToRole="Musteri" />
+          <NavigationProperty Name="HataResimler" Relationship="SanlabHataTespitVTModel.FK_HataResimler_Hata" FromRole="Hata" ToRole="HataResimler" />
         </EntityType>
         <EntityType Name="HataResimler">
           <Key>
@@ -294,6 +336,17 @@
           <Property Name="kisiTel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="kisiDepartman" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Hata" Relationship="SanlabHataTespitVTModel.FK_Hata_Kisiler" FromRole="Kisiler" ToRole="Hata" />
+        </EntityType>
+        <EntityType Name="Musteri">
+          <Key>
+            <PropertyRef Name="musteriID" />
+          </Key>
+          <Property Name="musteriID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="musteriAd" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="musteriAdres" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="musteriTel" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="musteriMail" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Hata" Relationship="SanlabHataTespitVTModel.FK_Hata_Musteri" FromRole="Musteri" ToRole="Hata" />
         </EntityType>
         <EntityType Name="Resimler">
           <Key>
@@ -328,6 +381,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Hata_Dosya">
+          <End Type="SanlabHataTespitVTModel.Dosya" Role="Dosya" Multiplicity="0..1" />
+          <End Type="SanlabHataTespitVTModel.Hata" Role="Hata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dosya">
+              <PropertyRef Name="dosyaID" />
+            </Principal>
+            <Dependent Role="Hata">
+              <PropertyRef Name="cozumDosyaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Hata_Kategori">
           <End Type="SanlabHataTespitVTModel.Kategori" Role="Kategori" Multiplicity="0..1" />
           <End Type="SanlabHataTespitVTModel.Hata" Role="Hata" Multiplicity="*" />
@@ -349,6 +414,18 @@
             </Principal>
             <Dependent Role="Hata">
               <PropertyRef Name="kisiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hata_Musteri">
+          <End Type="SanlabHataTespitVTModel.Musteri" Role="Musteri" Multiplicity="0..1" />
+          <End Type="SanlabHataTespitVTModel.Hata" Role="Hata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Musteri">
+              <PropertyRef Name="musteriID" />
+            </Principal>
+            <Dependent Role="Hata">
+              <PropertyRef Name="musteriID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -376,29 +453,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Musteri">
-          <Key>
-            <PropertyRef Name="musteriID" />
-          </Key>
-          <Property Name="musteriID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="musteriAd" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="musteriAdres" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="musteriTel" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="musteriMail" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Hata" Relationship="SanlabHataTespitVTModel.FK_Hata_Musteri" FromRole="Musteri" ToRole="Hata" />
-        </EntityType>
-        <Association Name="FK_Hata_Musteri">
-          <End Type="SanlabHataTespitVTModel.Musteri" Role="Musteri" Multiplicity="0..1" />
-          <End Type="SanlabHataTespitVTModel.Hata" Role="Hata" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Musteri">
-              <PropertyRef Name="musteriID" />
-            </Principal>
-            <Dependent Role="Hata">
-              <PropertyRef Name="musteriID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -414,14 +468,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Dosya">
+            <EntityTypeMapping TypeName="SanlabHataTespitVTModel.Dosya">
+              <MappingFragment StoreEntitySet="Dosya">
+                <ScalarProperty Name="dosyaData" ColumnName="dosyaData" />
+                <ScalarProperty Name="dosyaFormat" ColumnName="dosyaFormat" />
+                <ScalarProperty Name="dosyaAdi" ColumnName="dosyaAdi" />
+                <ScalarProperty Name="dosyaID" ColumnName="dosyaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Hata">
             <EntityTypeMapping TypeName="SanlabHataTespitVTModel.Hata">
               <MappingFragment StoreEntitySet="Hata">
                 <ScalarProperty Name="musteriID" ColumnName="musteriID" />
-                <ScalarProperty Name="cozumDosya" ColumnName="cozumDosya" />
+                <ScalarProperty Name="cozumDosyaID" ColumnName="cozumDosyaID" />
                 <ScalarProperty Name="cozumVarmi" ColumnName="cozumVarmi" />
-                <ScalarProperty Name="cozumTarihi" ColumnName="cozumTarihi" />
                 <ScalarProperty Name="kisiID" ColumnName="kisiID" />
+                <ScalarProperty Name="cozumTarihi" ColumnName="cozumTarihi" />
                 <ScalarProperty Name="hataTarih" ColumnName="hataTarih" />
                 <ScalarProperty Name="hataCozum" ColumnName="hataCozum" />
                 <ScalarProperty Name="kategoriID" ColumnName="kategoriID" />
@@ -460,14 +524,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Resimler">
-            <EntityTypeMapping TypeName="SanlabHataTespitVTModel.Resimler">
-              <MappingFragment StoreEntitySet="Resimler">
-                <ScalarProperty Name="resimData" ColumnName="resimData" />
-                <ScalarProperty Name="resimID" ColumnName="resimID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Musteri">
             <EntityTypeMapping TypeName="SanlabHataTespitVTModel.Musteri">
               <MappingFragment StoreEntitySet="Musteri">
@@ -476,6 +532,14 @@
                 <ScalarProperty Name="musteriAdres" ColumnName="musteriAdres" />
                 <ScalarProperty Name="musteriAd" ColumnName="musteriAd" />
                 <ScalarProperty Name="musteriID" ColumnName="musteriID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Resimler">
+            <EntityTypeMapping TypeName="SanlabHataTespitVTModel.Resimler">
+              <MappingFragment StoreEntitySet="Resimler">
+                <ScalarProperty Name="resimData" ColumnName="resimData" />
+                <ScalarProperty Name="resimID" ColumnName="resimID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

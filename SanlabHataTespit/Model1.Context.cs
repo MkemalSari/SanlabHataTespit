@@ -26,11 +26,12 @@ namespace SanlabHataTespit
         }
     
         public virtual DbSet<CozumResimler> CozumResimler { get; set; }
+        public virtual DbSet<Dosya> Dosya { get; set; }
         public virtual DbSet<Hata> Hata { get; set; }
         public virtual DbSet<HataResimler> HataResimler { get; set; }
         public virtual DbSet<Kategori> Kategori { get; set; }
         public virtual DbSet<Kisiler> Kisiler { get; set; }
-        public virtual DbSet<Resimler> Resimler { get; set; }
         public virtual DbSet<Musteri> Musteri { get; set; }
+        public virtual DbSet<Resimler> Resimler { get; set; }
     }
 }

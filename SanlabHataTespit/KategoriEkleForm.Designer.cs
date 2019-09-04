@@ -35,14 +35,14 @@
             // 
             // textBoxKategoriEkle
             // 
-            this.textBoxKategoriEkle.Location = new System.Drawing.Point(83, 30);
+            this.textBoxKategoriEkle.Location = new System.Drawing.Point(93, 20);
             this.textBoxKategoriEkle.Name = "textBoxKategoriEkle";
             this.textBoxKategoriEkle.Size = new System.Drawing.Size(100, 20);
             this.textBoxKategoriEkle.TabIndex = 0;
             // 
             // buttonKategoriEkle
             // 
-            this.buttonKategoriEkle.Location = new System.Drawing.Point(108, 66);
+            this.buttonKategoriEkle.Location = new System.Drawing.Point(118, 56);
             this.buttonKategoriEkle.Name = "buttonKategoriEkle";
             this.buttonKategoriEkle.Size = new System.Drawing.Size(75, 23);
             this.buttonKategoriEkle.TabIndex = 1;
@@ -53,7 +53,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 33);
+            this.label1.Location = new System.Drawing.Point(23, 23);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 13);
             this.label1.TabIndex = 2;
@@ -64,12 +64,13 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(237, 152);
+            this.ClientSize = new System.Drawing.Size(227, 175);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonKategoriEkle);
             this.Controls.Add(this.textBoxKategoriEkle);
             this.Name = "KategoriEkleForm";
             this.Text = "Kategori Ekle";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.KategoriEkleForm_FormClosing);
             this.Load += new System.EventHandler(this.FormResim_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

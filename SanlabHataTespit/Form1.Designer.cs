@@ -41,17 +41,19 @@
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonMusteriEkle = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonKategoriEkle = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxHataTanim = new System.Windows.Forms.TextBox();
             this.comboBoxMailGonder = new System.Windows.Forms.ComboBox();
             this.comboBoxGonderenKisiler = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxMusteri = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
             this.groupBoxCozum = new System.Windows.Forms.GroupBox();
+            this.labelCozumDosyaAdi = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.buttonDosyaIndir = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.textBoxCozumHataTanım = new System.Windows.Forms.TextBox();
@@ -59,6 +61,7 @@
             this.sanlabHataTespitVTDataSet = new SanlabHataTespit.SanlabHataTespitVTDataSet();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageHata = new System.Windows.Forms.TabPage();
+            this.label13 = new System.Windows.Forms.Label();
             this.tabPageCozum = new System.Windows.Forms.TabPage();
             this.tabPageKisi = new System.Windows.Forms.TabPage();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -78,9 +81,10 @@
             this.tabPageCozumEkle = new System.Windows.Forms.TabPage();
             this.labelDosyaAdi = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.buttonDosyaEkle = new System.Windows.Forms.Button();
+            this.label21 = new System.Windows.Forms.Label();
             this.buttonCozumResimEkle = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -91,7 +95,6 @@
             this.dataGridViewCozumEkle = new System.Windows.Forms.DataGridView();
             this.tabPageHatalar = new System.Windows.Forms.TabPage();
             this.dataGridViewTumHatalar = new System.Windows.Forms.DataGridView();
-            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBoxCozum.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -211,8 +214,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.buttonMusteriEkle);
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.buttonKategoriEkle);
             this.groupBox1.Controls.Add(this.tableLayoutPanel1);
             this.groupBox1.Controls.Add(this.textBoxHataTanim);
             this.groupBox1.Controls.Add(this.textBoxAciklama);
@@ -224,7 +226,7 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.comboBoxMusteri);
             this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.comboBoxKategori);
             this.groupBox1.Controls.Add(this.label1);
@@ -243,27 +245,17 @@
             this.buttonMusteriEkle.TabIndex = 12;
             this.buttonMusteriEkle.Text = "+";
             this.buttonMusteriEkle.UseVisualStyleBackColor = true;
-            this.buttonMusteriEkle.Click += new System.EventHandler(this.button3_Click);
+            this.buttonMusteriEkle.Click += new System.EventHandler(this.buttonMusteriEkle_Click);
             // 
-            // button3
+            // buttonKategoriEkle
             // 
-            this.button3.Location = new System.Drawing.Point(246, 19);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(20, 23);
-            this.button3.TabIndex = 12;
-            this.button3.Text = "+";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(154, 422);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 11;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonKategoriEkle.Location = new System.Drawing.Point(246, 19);
+            this.buttonKategoriEkle.Name = "buttonKategoriEkle";
+            this.buttonKategoriEkle.Size = new System.Drawing.Size(20, 23);
+            this.buttonKategoriEkle.TabIndex = 12;
+            this.buttonKategoriEkle.Text = "+";
+            this.buttonKategoriEkle.UseVisualStyleBackColor = true;
+            this.buttonKategoriEkle.Click += new System.EventHandler(this.buttonKategoriEkle_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -323,15 +315,15 @@
             this.label4.TabIndex = 2;
             this.label4.Text = "Gönderen Kişi :";
             // 
-            // comboBox1
+            // comboBoxMusteri
             // 
-            this.comboBox1.BackColor = System.Drawing.SystemColors.Menu;
-            this.comboBox1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(73, 48);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(167, 21);
-            this.comboBox1.TabIndex = 1;
+            this.comboBoxMusteri.BackColor = System.Drawing.SystemColors.Menu;
+            this.comboBoxMusteri.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.comboBoxMusteri.FormattingEnabled = true;
+            this.comboBoxMusteri.Location = new System.Drawing.Point(73, 48);
+            this.comboBoxMusteri.Name = "comboBoxMusteri";
+            this.comboBoxMusteri.Size = new System.Drawing.Size(167, 21);
+            this.comboBoxMusteri.TabIndex = 1;
             // 
             // label15
             // 
@@ -344,7 +336,9 @@
             // 
             // groupBoxCozum
             // 
-            this.groupBoxCozum.Controls.Add(this.button4);
+            this.groupBoxCozum.Controls.Add(this.labelCozumDosyaAdi);
+            this.groupBoxCozum.Controls.Add(this.label20);
+            this.groupBoxCozum.Controls.Add(this.buttonDosyaIndir);
             this.groupBoxCozum.Controls.Add(this.tableLayoutPanel2);
             this.groupBoxCozum.Controls.Add(this.pictureBox2);
             this.groupBoxCozum.Controls.Add(this.textBoxSearch);
@@ -359,6 +353,33 @@
             this.groupBoxCozum.TabIndex = 14;
             this.groupBoxCozum.TabStop = false;
             this.groupBoxCozum.Text = "Çözüm Ara";
+            // 
+            // labelCozumDosyaAdi
+            // 
+            this.labelCozumDosyaAdi.AutoSize = true;
+            this.labelCozumDosyaAdi.Location = new System.Drawing.Point(74, 377);
+            this.labelCozumDosyaAdi.Name = "labelCozumDosyaAdi";
+            this.labelCozumDosyaAdi.Size = new System.Drawing.Size(0, 13);
+            this.labelCozumDosyaAdi.TabIndex = 18;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(7, 377);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(61, 13);
+            this.label20.TabIndex = 17;
+            this.label20.Text = "Dosya Adı :";
+            // 
+            // buttonDosyaIndir
+            // 
+            this.buttonDosyaIndir.Location = new System.Drawing.Point(202, 415);
+            this.buttonDosyaIndir.Name = "buttonDosyaIndir";
+            this.buttonDosyaIndir.Size = new System.Drawing.Size(75, 23);
+            this.buttonDosyaIndir.TabIndex = 16;
+            this.buttonDosyaIndir.Text = "Dosya İndir";
+            this.buttonDosyaIndir.UseVisualStyleBackColor = true;
+            this.buttonDosyaIndir.Click += new System.EventHandler(this.button4_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -419,20 +440,30 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(433, 645);
+            this.tabControl1.Size = new System.Drawing.Size(518, 659);
             this.tabControl1.TabIndex = 16;
             this.tabControl1.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Selecting);
             // 
             // tabPageHata
             // 
+            this.tabPageHata.Controls.Add(this.label13);
             this.tabPageHata.Controls.Add(this.groupBox1);
             this.tabPageHata.Location = new System.Drawing.Point(4, 22);
             this.tabPageHata.Name = "tabPageHata";
             this.tabPageHata.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageHata.Size = new System.Drawing.Size(425, 594);
+            this.tabPageHata.Size = new System.Drawing.Size(510, 633);
             this.tabPageHata.TabIndex = 0;
             this.tabPageHata.Text = "Hata Bildir";
             this.tabPageHata.UseVisualStyleBackColor = true;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(115, 617);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(131, 13);
+            this.label13.TabIndex = 18;
+            this.label13.Text = "Bir Stajer İşbirliği Yapımıdır.";
             // 
             // tabPageCozum
             // 
@@ -440,7 +471,7 @@
             this.tabPageCozum.Location = new System.Drawing.Point(4, 22);
             this.tabPageCozum.Name = "tabPageCozum";
             this.tabPageCozum.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCozum.Size = new System.Drawing.Size(425, 619);
+            this.tabPageCozum.Size = new System.Drawing.Size(510, 633);
             this.tabPageCozum.TabIndex = 1;
             this.tabPageCozum.Text = "Çözüm Ara";
             this.tabPageCozum.UseVisualStyleBackColor = true;
@@ -464,7 +495,7 @@
             this.tabPageKisi.Location = new System.Drawing.Point(4, 22);
             this.tabPageKisi.Name = "tabPageKisi";
             this.tabPageKisi.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageKisi.Size = new System.Drawing.Size(425, 594);
+            this.tabPageKisi.Size = new System.Drawing.Size(510, 633);
             this.tabPageKisi.TabIndex = 2;
             this.tabPageKisi.Text = "Kişiler";
             this.tabPageKisi.UseVisualStyleBackColor = true;
@@ -596,9 +627,10 @@
             // 
             this.tabPageCozumEkle.Controls.Add(this.labelDosyaAdi);
             this.tabPageCozumEkle.Controls.Add(this.label19);
-            this.tabPageCozumEkle.Controls.Add(this.label13);
+            this.tabPageCozumEkle.Controls.Add(this.tableLayoutPanel4);
             this.tabPageCozumEkle.Controls.Add(this.tableLayoutPanel3);
             this.tabPageCozumEkle.Controls.Add(this.buttonDosyaEkle);
+            this.tabPageCozumEkle.Controls.Add(this.label21);
             this.tabPageCozumEkle.Controls.Add(this.buttonCozumResimEkle);
             this.tabPageCozumEkle.Controls.Add(this.label16);
             this.tabPageCozumEkle.Controls.Add(this.label17);
@@ -609,37 +641,42 @@
             this.tabPageCozumEkle.Controls.Add(this.dataGridViewCozumEkle);
             this.tabPageCozumEkle.Location = new System.Drawing.Point(4, 22);
             this.tabPageCozumEkle.Name = "tabPageCozumEkle";
-            this.tabPageCozumEkle.Size = new System.Drawing.Size(425, 619);
+            this.tabPageCozumEkle.Size = new System.Drawing.Size(510, 633);
             this.tabPageCozumEkle.TabIndex = 4;
             this.tabPageCozumEkle.Text = "Çözüm Ekle";
             this.tabPageCozumEkle.UseVisualStyleBackColor = true;
+            this.tabPageCozumEkle.Click += new System.EventHandler(this.tabPageCozumEkle_Click);
             // 
             // labelDosyaAdi
             // 
             this.labelDosyaAdi.AutoSize = true;
-            this.labelDosyaAdi.Location = new System.Drawing.Point(99, 560);
+            this.labelDosyaAdi.Location = new System.Drawing.Point(110, 575);
             this.labelDosyaAdi.Name = "labelDosyaAdi";
-            this.labelDosyaAdi.Size = new System.Drawing.Size(41, 13);
+            this.labelDosyaAdi.Size = new System.Drawing.Size(0, 13);
             this.labelDosyaAdi.TabIndex = 19;
-            this.labelDosyaAdi.Text = "label20";
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(8, 560);
+            this.label19.Location = new System.Drawing.Point(19, 575);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(85, 13);
             this.label19.TabIndex = 18;
             this.label19.Text = "Eklenen Dosya :";
             // 
-            // label13
+            // tableLayoutPanel4
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(141, 601);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(131, 13);
-            this.label13.TabIndex = 17;
-            this.label13.Text = "Bir Stajer İşbirliği Yapımıdır.";
+            this.tableLayoutPanel4.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(101, 313);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(200, 107);
+            this.tableLayoutPanel4.TabIndex = 6;
             // 
             // tableLayoutPanel3
             // 
@@ -647,17 +684,17 @@
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(72, 417);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(101, 432);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(200, 100);
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 49.49495F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.50505F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(200, 103);
             this.tableLayoutPanel3.TabIndex = 6;
             // 
             // buttonDosyaEkle
             // 
-            this.buttonDosyaEkle.Location = new System.Drawing.Point(153, 523);
+            this.buttonDosyaEkle.Location = new System.Drawing.Point(181, 541);
             this.buttonDosyaEkle.Name = "buttonDosyaEkle";
             this.buttonDosyaEkle.Size = new System.Drawing.Size(75, 23);
             this.buttonDosyaEkle.TabIndex = 5;
@@ -665,9 +702,19 @@
             this.buttonDosyaEkle.UseVisualStyleBackColor = true;
             this.buttonDosyaEkle.Click += new System.EventHandler(this.buttonDosyaEkle_Click);
             // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label21.Location = new System.Drawing.Point(20, 313);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(75, 13);
+            this.label21.TabIndex = 4;
+            this.label21.Text = "Hata Resimleri";
+            // 
             // buttonCozumResimEkle
             // 
-            this.buttonCozumResimEkle.Location = new System.Drawing.Point(72, 523);
+            this.buttonCozumResimEkle.Location = new System.Drawing.Point(100, 541);
             this.buttonCozumResimEkle.Name = "buttonCozumResimEkle";
             this.buttonCozumResimEkle.Size = new System.Drawing.Size(75, 23);
             this.buttonCozumResimEkle.TabIndex = 5;
@@ -678,16 +725,17 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(19, 417);
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label16.Location = new System.Drawing.Point(13, 435);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(47, 13);
+            this.label16.Size = new System.Drawing.Size(82, 13);
             this.label16.TabIndex = 4;
-            this.label16.Text = "Resimler";
+            this.label16.Text = "Çözüm Resimler";
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(27, 331);
+            this.label17.Location = new System.Drawing.Point(320, 416);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(39, 13);
             this.label17.TabIndex = 4;
@@ -696,7 +744,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(8, 285);
+            this.label18.Location = new System.Drawing.Point(33, 285);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(62, 13);
             this.label18.TabIndex = 4;
@@ -705,23 +753,23 @@
             // textBoxCozumTanım
             // 
             this.textBoxCozumTanım.Enabled = false;
-            this.textBoxCozumTanım.Location = new System.Drawing.Point(72, 282);
+            this.textBoxCozumTanım.Location = new System.Drawing.Point(101, 282);
             this.textBoxCozumTanım.Multiline = true;
             this.textBoxCozumTanım.Name = "textBoxCozumTanım";
-            this.textBoxCozumTanım.Size = new System.Drawing.Size(168, 25);
+            this.textBoxCozumTanım.Size = new System.Drawing.Size(200, 25);
             this.textBoxCozumTanım.TabIndex = 3;
             // 
             // textBoxCozumAciklama
             // 
-            this.textBoxCozumAciklama.Location = new System.Drawing.Point(72, 328);
+            this.textBoxCozumAciklama.Location = new System.Drawing.Point(323, 432);
             this.textBoxCozumAciklama.Multiline = true;
             this.textBoxCozumAciklama.Name = "textBoxCozumAciklama";
-            this.textBoxCozumAciklama.Size = new System.Drawing.Size(168, 73);
+            this.textBoxCozumAciklama.Size = new System.Drawing.Size(179, 103);
             this.textBoxCozumAciklama.TabIndex = 3;
             // 
             // buttonCozumGonder
             // 
-            this.buttonCozumGonder.Location = new System.Drawing.Point(281, 591);
+            this.buttonCozumGonder.Location = new System.Drawing.Point(192, 602);
             this.buttonCozumGonder.Name = "buttonCozumGonder";
             this.buttonCozumGonder.Size = new System.Drawing.Size(136, 23);
             this.buttonCozumGonder.TabIndex = 2;
@@ -734,9 +782,10 @@
             this.dataGridViewCozumEkle.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewCozumEkle.Location = new System.Drawing.Point(8, 3);
             this.dataGridViewCozumEkle.Name = "dataGridViewCozumEkle";
-            this.dataGridViewCozumEkle.Size = new System.Drawing.Size(409, 265);
+            this.dataGridViewCozumEkle.Size = new System.Drawing.Size(494, 265);
             this.dataGridViewCozumEkle.TabIndex = 1;
             this.dataGridViewCozumEkle.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewCozumEkle_CellMouseDoubleClick);
+            this.dataGridViewCozumEkle.ColumnSortModeChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dataGridViewCozumEkle_ColumnSortModeChanged);
             // 
             // tabPageHatalar
             // 
@@ -744,7 +793,7 @@
             this.tabPageHatalar.Location = new System.Drawing.Point(4, 22);
             this.tabPageHatalar.Name = "tabPageHatalar";
             this.tabPageHatalar.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageHatalar.Size = new System.Drawing.Size(425, 594);
+            this.tabPageHatalar.Size = new System.Drawing.Size(510, 633);
             this.tabPageHatalar.TabIndex = 3;
             this.tabPageHatalar.Text = "Tüm Hatalar";
             this.tabPageHatalar.UseVisualStyleBackColor = true;
@@ -752,27 +801,19 @@
             // dataGridViewTumHatalar
             // 
             this.dataGridViewTumHatalar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewTumHatalar.Location = new System.Drawing.Point(6, 6);
+            this.dataGridViewTumHatalar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewTumHatalar.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridViewTumHatalar.Location = new System.Drawing.Point(3, 3);
             this.dataGridViewTumHatalar.Name = "dataGridViewTumHatalar";
-            this.dataGridViewTumHatalar.Size = new System.Drawing.Size(384, 415);
+            this.dataGridViewTumHatalar.ReadOnly = true;
+            this.dataGridViewTumHatalar.Size = new System.Drawing.Size(504, 627);
             this.dataGridViewTumHatalar.TabIndex = 0;
-            this.dataGridViewTumHatalar.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dataGridViewTumHatalar_ColumnAdded);
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(202, 400);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 16;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(433, 645);
+            this.ClientSize = new System.Drawing.Size(518, 659);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Sanlab Arıza Kayıt Sistemi";
@@ -785,6 +826,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.sanlabHataTespitVTDataSet)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPageHata.ResumeLayout(false);
+            this.tabPageHata.PerformLayout();
             this.tabPageCozum.ResumeLayout(false);
             this.tabPageKisi.ResumeLayout(false);
             this.tabPageKisi.PerformLayout();
@@ -833,11 +875,10 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox comboBoxMailGonder;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TabPage tabPageHatalar;
         private System.Windows.Forms.DataGridView dataGridViewTumHatalar;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonKategoriEkle;
         private System.Windows.Forms.TextBox textBoxHataTanim;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TextBox textBoxKisiArama;
@@ -853,17 +894,21 @@
         private System.Windows.Forms.TextBox textBoxCozumAciklama;
         private System.Windows.Forms.Button buttonCozumGonder;
         private System.Windows.Forms.DataGridView dataGridViewCozumEkle;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox textBoxCozumTanım;
         private System.Windows.Forms.Button buttonMusteriEkle;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBoxMusteri;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label labelDosyaAdi;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Button buttonDosyaEkle;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button buttonDosyaIndir;
+        private System.Windows.Forms.Label labelCozumDosyaAdi;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Label label21;
     }
 }
 

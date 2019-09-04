@@ -36,8 +36,16 @@ namespace SanlabHataTespit
                 if (d>0)
                 {
                     MessageBox.Show("Kategori Eklendi");
+                    var mfrm = (Form1)Application.OpenForms["Form1"];
+                    if (mfrm != null)
+                        mfrm.KategoriDoldur();
                 }
             }
+           
+        }
+
+        private void KategoriEkleForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
            
         }
     }
