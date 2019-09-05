@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Be.Timvw.Framework.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -230,11 +231,8 @@ namespace SanlabHataTespit
             kisi.kisiSoyad = textBoxSoyad.Text;
             kisi.kisiTel = textBoxTelNo.Text;
             kisi.kisiMail = textBoxEmail.Text;
-
             contextDb.Kisiler.Add(kisi);
             int durum = contextDb.SaveChanges();
-
-
             if (durum > 0)
             {
                 MessageBox.Show("Kişi Eklenmiştir");
@@ -379,7 +377,7 @@ namespace SanlabHataTespit
                 if (a > 0)
                 {
                     MessageBox.Show("Cözümünüz Sisteme eklenmiştir");
-                    string konu = "Hata Kodu: "+ DataGridViewSelectGlobalHata.hataID+" olan"+ textBoxCozumTanım.Text+"Adlı Arızanın Çözümü";
+                    string konu = "Hata Kodu: "+ DataGridViewSelectGlobalHata.hataID+" olan "+ textBoxCozumTanım.Text+" Adlı Arızanın Çözümü";
                     string govde = "Çözüm Açıklama :"+ textBoxCozumAciklama.Text+"\n Daha detalı bilgiye, çözüm dosyası ve çözüm resimlerine Sanlab Arıza Tespit Sistemi Programının çözüm ara kısmından hata Kodunu Aratarak ulaşabilirsiniz.";
                     MailGonder(DataGridViewSelectGlobalHata.Kisiler.kisiID, konu, govde);
                     TumCozumleriListele();
@@ -398,6 +396,7 @@ namespace SanlabHataTespit
 
             textBoxCozumAciklama.Text = DataGridViewSelectGlobalHata.hataCozum;
             textBoxCozumTanım.Text = DataGridViewSelectGlobalHata.hataAd;
+            textBoxHataAciklama.Text = DataGridViewSelectGlobalHata.hataAciklama;
             if (DataGridViewSelectGlobalHata!=null)
             {
 
@@ -503,7 +502,7 @@ namespace SanlabHataTespit
         void TumHatalariListele()
         {
            
-            dataGridViewTumHatalar.DataSource = (from h in contextDb.Hata
+            var tumHatalar = (from h in contextDb.Hata
                                                  select new
                                                  {
                                                      Hata_Id = h.hataID,
@@ -518,14 +517,17 @@ namespace SanlabHataTespit
                                                      Cözüm_Tarihi = h.cozumTarihi,
                                                      Cözüm_Varmı = (h.cozumVarmi == false || h.cozumVarmi == null) ? "Yok" : "Var"
                                                      //Cözüm_Tarih=h.cozumTarih
-                                                 }).OrderByDescending(a=> a.Cözüm_Tarihi).ToList();
+                                                 }).ToList();
+            SortableBindingList<object> sbl = LINQExtension.ToSbl(tumHatalar);
+            dataGridViewTumHatalar.DataSource = sbl;
+           
 
             //this.dataGridViewTumHatalar.Sort(this.dataGridViewTumHatalar.Columns["Hata_Tarihi"], ListSortDirection.Ascending);
         }
         void TumCozumleriListele()
         {
 
-            dataGridViewCozumEkle.DataSource = (from h in contextDb.Hata
+            var tumCozumler = (from h in contextDb.Hata
                                                 where h.cozumVarmi == false
                                                 select new
                                                 {
@@ -544,7 +546,8 @@ namespace SanlabHataTespit
 
                                                 }).ToList();
 
-
+            SortableBindingList<object> sbl = LINQExtension.ToSbl(tumCozumler);
+            dataGridViewCozumEkle.DataSource = sbl;
         }
         void CozumBolumunuTemizle()
         {
@@ -652,6 +655,11 @@ namespace SanlabHataTespit
         }
 
         private void dataGridViewCozumEkle_ColumnSortModeChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+
+        }
+
+        private void tabPageHata_Click(object sender, EventArgs e)
         {
 
         }
