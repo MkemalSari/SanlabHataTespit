@@ -8,9 +8,13 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
+using System.Text;
+using Image = System.Drawing.Image;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace SanlabHataTespit
 {
@@ -34,7 +38,7 @@ namespace SanlabHataTespit
             // TODO: Bu kod satırı 'sanlabHataTespitVTDataSet.Hata' tablosuna veri yükler. Bunu gerektiği şekilde taşıyabilir, veya kaldırabilirsiniz.
             KisiDoldur(comboBoxGonderenKisiler);
             KisiDoldur(comboBoxMailGonder);
-            KategoriDoldur();
+            KategoriDoldur(comboBoxKategori);
             MusteriDoldur();
 
             //Otomatik doldurma için Gerekli olan Kişi verilerini yüklüyorum.
@@ -66,7 +70,7 @@ namespace SanlabHataTespit
             hata.musteriID = (int)comboBoxMusteri.SelectedValue;
             contextDb.Hata.Add(hata);
             contextDb.SaveChanges();
-            
+
             if (Hatapictureboxes != null)
             {
                 foreach (var item in Hatapictureboxes)
@@ -89,14 +93,16 @@ namespace SanlabHataTespit
                     hataResimler.hataID = hata.hataID;
                     contextDb.HataResimler.Add(hataResimler);
                     contextDb.SaveChanges();
-                   
+
                 }
                 //veritabanına yeni hata oluşturuyoruz.
             }
             if (comboBoxMailGonder.SelectedItem != null)
             {
-                string subject = textBoxHataTanim.Text;
-                string body = "Hata Açıklama: " + textBoxAciklama.Text + "\n" + "Arıza Hata Kodu : " + hata.hataID;
+                string subject = "Hatanın Tanımı : " + textBoxHataTanim.Text;
+                string HatayıRaporlayan = hata.Kisiler.fullName;
+                string NOT = "NOT : HATA KODU İLE ARAMA YAPINIZ !";
+                string body = "Hatanın Tanımı : " + textBoxHataTanim.Text + "\n" + "\n" + "Hata Açıklama : " + textBoxAciklama.Text + "\n" + "\n" + "Arıza Hata Kodu : " + hata.hataID + "\n" + "\n" + NOT + "\n" + "\n" + "\n" + "Saygılarımla," + "\n" + HatayıRaporlayan;
                 MailGonder((int)comboBoxMailGonder.SelectedValue, subject, body);
             }
 
@@ -105,8 +111,8 @@ namespace SanlabHataTespit
             Hatapictureboxes.Clear();
             tableLayoutPanel1.Controls.Clear();
             //Mail işlemleri
-            
-            
+
+
         }
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
         {
@@ -129,7 +135,7 @@ namespace SanlabHataTespit
                 textBoxCozum.Text = searchHata.hataCozum;
                 textBoxCozumHataTanım.Text = searchHata.hataAd;
                 var cozumResimler = contextDb.CozumResimler.Where(r => r.hataID == searchHata.hataID).ToList();
-              
+
                 if (cozumResimler != null)
                 {
                     string deneme = "";
@@ -148,7 +154,7 @@ namespace SanlabHataTespit
                     }
 
                 }
-               
+
             }
             else
             {
@@ -242,7 +248,7 @@ namespace SanlabHataTespit
             }
         }
         #endregion
-      
+
         #region Kisi Ekleme Silme Güncelleme İşlemleri
         Kisiler kisi;
         private void textBoxKisiArama_TextChanged(object sender, EventArgs e)
@@ -299,7 +305,7 @@ namespace SanlabHataTespit
             textBoxKisiArama.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
 
-        }    
+        }
         #endregion
         #region dataGridViewLeri Doldurma
         private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
@@ -308,6 +314,7 @@ namespace SanlabHataTespit
             if (e.TabPageIndex == 4)
             {
                 TumHatalariListele(); //Sistemdeki bütün hataları listeler
+                KategoriDoldur(comboBoxTumHatalarKategori);
             }
             if (e.TabPageIndex == 2)
             {
@@ -316,6 +323,8 @@ namespace SanlabHataTespit
             if (e.TabPageIndex == 3)
             {
                 TumCozumleriListele();
+
+
 
             }
         }
@@ -377,8 +386,8 @@ namespace SanlabHataTespit
                 if (a > 0)
                 {
                     MessageBox.Show("Cözümünüz Sisteme eklenmiştir");
-                    string konu = "Hata Kodu: "+ DataGridViewSelectGlobalHata.hataID+" olan "+ textBoxCozumTanım.Text+" Adlı Arızanın Çözümü";
-                    string govde = "Çözüm Açıklama :"+ textBoxCozumAciklama.Text+"\n Daha detalı bilgiye, çözüm dosyası ve çözüm resimlerine Sanlab Arıza Tespit Sistemi Programının çözüm ara kısmından hata Kodunu Aratarak ulaşabilirsiniz.";
+                    string konu = "Hata Kodu: " + DataGridViewSelectGlobalHata.hataID + " olan " + textBoxCozumTanım.Text + " Adlı Arızanın Çözümü";
+                    string govde = "Çözüm Açıklama :" + textBoxCozumAciklama.Text + "\n Daha detalı bilgiye, çözüm dosyası ve çözüm resimlerine Sanlab Arıza Tespit Sistemi Programının çözüm ara kısmından hata Kodunu Aratarak ulaşabilirsiniz.";
                     MailGonder(DataGridViewSelectGlobalHata.Kisiler.kisiID, konu, govde);
                     TumCozumleriListele();
                 }
@@ -397,28 +406,28 @@ namespace SanlabHataTespit
             textBoxCozumAciklama.Text = DataGridViewSelectGlobalHata.hataCozum;
             textBoxCozumTanım.Text = DataGridViewSelectGlobalHata.hataAd;
             textBoxHataAciklama.Text = DataGridViewSelectGlobalHata.hataAciklama;
-            if (DataGridViewSelectGlobalHata!=null)
+            if (DataGridViewSelectGlobalHata != null)
             {
 
-            var HataResimler = contextDb.HataResimler.Where(r => r.hataID == DataGridViewSelectGlobalHata.hataID).ToList();
-            if (HataResimler != null)
-            {
-
-                foreach (var item in HataResimler)
+                var HataResimler = contextDb.HataResimler.Where(r => r.hataID == DataGridViewSelectGlobalHata.hataID).ToList();
+                if (HataResimler != null)
                 {
 
-                    byte[] a = item.Resimler.resimData;
-                    MemoryStream ms = new MemoryStream(a);
-                    Image img = Image.FromStream(ms);
-                    PictureBox picture = new PictureBox();
-                    picture.MouseClick += Picture_MouseClick;
-                    picture.SizeMode = PictureBoxSizeMode.StretchImage;
-                    picture.Image = img;
-                    tableLayoutPanel4.Controls.Add(picture);
+                    foreach (var item in HataResimler)
+                    {
+
+                        byte[] a = item.Resimler.resimData;
+                        MemoryStream ms = new MemoryStream(a);
+                        Image img = Image.FromStream(ms);
+                        PictureBox picture = new PictureBox();
+                        picture.MouseClick += Picture_MouseClick;
+                        picture.SizeMode = PictureBoxSizeMode.StretchImage;
+                        picture.Image = img;
+                        tableLayoutPanel4.Controls.Add(picture);
+
+                    }
 
                 }
-
-            }
             }
         }
         private void buttonCozumResimEkle_Click(object sender, EventArgs e)
@@ -501,26 +510,26 @@ namespace SanlabHataTespit
         }
         void TumHatalariListele()
         {
-           
+
             var tumHatalar = (from h in contextDb.Hata
-                                                 select new
-                                                 {
-                                                     Hata_Id = h.hataID,
-                                                     Hata_Adı = h.hataAd,
-                                                     Hata_Müşteri = h.Musteri.musteriAd,
-                                                     Hata_Açıklama = h.hataAciklama,
-                                                     Kategori_Adı = h.Kategori.kategoriAd,
-                                                     Gönderen_Ad = h.Kisiler.kisiAd,
-                                                     Gönderen_Soyad = h.Kisiler.kisiSoyad,
-                                                     Hata_Tarihi = h.hataTarih,
-                                                     Çözüm_Açıklama = h.hataCozum,
-                                                     Cözüm_Tarihi = h.cozumTarihi,
-                                                     Cözüm_Varmı = (h.cozumVarmi == false || h.cozumVarmi == null) ? "Yok" : "Var"
-                                                     //Cözüm_Tarih=h.cozumTarih
-                                                 }).ToList();
+                              select new
+                              {
+                                  Hata_Id = h.hataID,
+                                  Hata_Adı = h.hataAd,
+                                  Hata_Müşteri = h.Musteri.musteriAd,
+                                  Hata_Açıklama = h.hataAciklama,
+                                  Kategori_Adı = h.Kategori.kategoriAd,
+                                  Gönderen_Ad = h.Kisiler.kisiAd,
+                                  Gönderen_Soyad = h.Kisiler.kisiSoyad,
+                                  Hata_Tarihi = h.hataTarih,
+                                  Çözüm_Açıklama = h.hataCozum,
+                                  Cözüm_Tarihi = h.cozumTarihi,
+                                  Cözüm_Varmı = (h.cozumVarmi == false || h.cozumVarmi == null) ? "Yok" : "Var"
+                                  //Cözüm_Tarih=h.cozumTarih
+                              }).ToList();
             SortableBindingList<object> sbl = LINQExtension.ToSbl(tumHatalar);
             dataGridViewTumHatalar.DataSource = sbl;
-           
+
 
             //this.dataGridViewTumHatalar.Sort(this.dataGridViewTumHatalar.Columns["Hata_Tarihi"], ListSortDirection.Ascending);
         }
@@ -528,23 +537,24 @@ namespace SanlabHataTespit
         {
 
             var tumCozumler = (from h in contextDb.Hata
-                                                where h.cozumVarmi == false
-                                                select new
-                                                {
-                                                    Hata_Id = h.hataID,
-                                                    Hata_Adı = h.hataAd,
-                                                    Hata_Müşteri=h.Musteri.musteriAd,
-                                                    Hata_Açıklama = h.hataAciklama,
-                                                    Kategori_Adı = h.Kategori.kategoriAd,
-                                                    Gönderen_Ad = h.Kisiler.kisiAd,
-                                                    Gönderen_Soyad = h.Kisiler.kisiSoyad,
-                                                    Hata_Tarihi = h.hataTarih,
-                                                    Cözüm_Tarihi = h.cozumTarihi,
-                                                    Cözüm_Varmı = (h.cozumVarmi == false || h.cozumVarmi == null) ? "Yok" : "Var"
-                                                    //Cözüm_Tarih=h.cozumTarih
+                               where h.cozumVarmi == false
+                               select new
+                               {
+                                   Hata_Id = h.hataID,
+                                   Hata_Adı = h.hataAd,
+                                   Hata_Müşteri = h.Musteri.musteriAd,
+                                   Hata_Açıklama = h.hataAciklama,
+                                   Kategori_Adı = h.Kategori.kategoriAd,
+                                   Gönderen_Ad = h.Kisiler.kisiAd,
+                                   Gönderen_Soyad = h.Kisiler.kisiSoyad,
+
+                                   Hata_Tarihi = h.hataTarih,
+                                   Cözüm_Tarihi = h.cozumTarihi,
+                                   Cözüm_Varmı = (h.cozumVarmi == false || h.cozumVarmi == null) ? "Yok" : "Var"
+                                   //Cözüm_Tarih=h.cozumTarih
 
 
-                                                }).ToList();
+                               }).ToList();
 
             SortableBindingList<object> sbl = LINQExtension.ToSbl(tumCozumler);
             dataGridViewCozumEkle.DataSource = sbl;
@@ -573,14 +583,14 @@ namespace SanlabHataTespit
             comboBox.DataSource = KisiList;
 
         }
-        void MailGonder(int kisiID,string konuText,string govdeText)
+        void MailGonder(int kisiID, string konuText, string govdeText)
         {
             var kisi = contextDb.Kisiler.FirstOrDefault(x => x.kisiID == kisiID);
 
             var fromAddress = new MailAddress("sanlabhatasistemi@gmail.com", "Sanlab Arıza Tespit Sistemi");
             var toAddress = new MailAddress(kisi.kisiMail, kisi.kisiAd + " " + kisi.kisiSoyad);
             const string fromPassword = "sanlab123";
-            
+
 
             var smtp = new SmtpClient
             {
@@ -602,21 +612,21 @@ namespace SanlabHataTespit
 
 
         }
-       public void KategoriDoldur()
+        public void KategoriDoldur(ComboBox combo)
         {
             var kategoriList = contextDb.Kategori.ToList();
-            comboBoxKategori.ValueMember = "kategoriID";
-            comboBoxKategori.DisplayMember = "kategoriAd";
-            comboBoxKategori.DataSource = kategoriList;
+            combo.ValueMember = "kategoriID";
+            combo.DisplayMember = "kategoriAd";
+            combo.DataSource = kategoriList;
         }
-       public void MusteriDoldur()
+        public void MusteriDoldur()
         {
             var musteriList = contextDb.Musteri.ToList();
             comboBoxMusteri.ValueMember = "musteriID";
             comboBoxMusteri.DisplayMember = "musteriAd";
             comboBoxMusteri.DataSource = musteriList;
         }
-       // TextBox textBoxKategori = new TextBox();
+        // TextBox textBoxKategori = new TextBox();
         private void buttonKategoriEkle_Click(object sender, EventArgs e)
         {
             KategoriEkleForm form = new KategoriEkleForm();
@@ -630,7 +640,7 @@ namespace SanlabHataTespit
             //btnKategoriEkle.Text = "Ekle";
             //btnKategoriEkle.UseVisualStyleBackColor = true;
             //btnKategoriEkle.Click += BtnKategoriEkle_Click;
-            
+
             //textBoxKategori.Location = new System.Drawing.Point(83, 30);
             //textBoxKategori.Name = "textBoxKategoriEkle";
             //textBoxKategori.Size = new System.Drawing.Size(100, 20);
@@ -638,8 +648,8 @@ namespace SanlabHataTespit
             //form.Controls.Add(btnKategoriEkle);
             //form.Controls.Add(textBoxKategori);
             form.ShowDialog();
-          
-           // form.FormClosing += Form_FormClosing;
+
+            // form.FormClosing += Form_FormClosing;
 
 
         }
@@ -649,19 +659,36 @@ namespace SanlabHataTespit
             mform.ShowDialog();
         }
 
-        private void tabPageCozumEkle_Click(object sender, EventArgs e)
+
+        private void textBoxCozumHataAra_TextChanged(object sender, EventArgs e)
         {
+            string sorgu = textBoxCozumHataAra.Text;
+            searchHata = contextDb.Hata.FirstOrDefault(a => a.hataID.ToString() == sorgu || a.hataAd == sorgu);
 
         }
-
-        private void dataGridViewCozumEkle_ColumnSortModeChanged(object sender, DataGridViewColumnEventArgs e)
+        public void KategoriDoldurUzaktan()
         {
 
+            KategoriDoldur(comboBoxKategori);
         }
 
-        private void tabPageHata_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
+            var sorgu = contextDb.Hata.Where(a => a.kategoriID == (int)comboBoxTumHatalarKategori.SelectedValue).ToList();
 
+            
+        }
+
+        private void comboBoxTumHatalarKategori_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //var sorgu = contextDb.Hata.Where(a => a.kategoriID == (int)comboBoxTumHatalarKategori.SelectedValue).ToList();
+            //dataGridViewTumHatalar.DataSource = sorgu;
         }
     }
+
+
+
+
 }
+
+

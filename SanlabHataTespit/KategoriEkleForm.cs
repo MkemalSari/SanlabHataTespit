@@ -38,7 +38,7 @@ namespace SanlabHataTespit
                     MessageBox.Show("Kategori Eklendi");
                     var mfrm = (Form1)Application.OpenForms["Form1"];
                     if (mfrm != null)
-                        mfrm.KategoriDoldur();
+                        mfrm.KategoriDoldurUzaktan();
                 }
             }
            
